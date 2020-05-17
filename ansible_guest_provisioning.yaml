@@ -1,0 +1,17 @@
+- hosts: all
+  gather_facts: False
+  become: true
+  tasks:
+
+  - name: Copy local ssh key
+    authorized_key:
+      user: vagrant
+      state: present
+      key: "{{ lookup('file', '/$HOME/.ssh/id_rsa.pub') }}"
+
+  - name: Install packages
+    apt:
+      name: ['tmux', 'curl', 'git', 'tree']
+      state: present
+      update_cache: yes
+
